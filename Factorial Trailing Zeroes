@@ -1,0 +1,42 @@
+int trailingZeroes(int n) {
+    int cnt=0, two=0, five=0;
+    int* num_two = (int*)malloc(sizeof(int) * (n+1));
+    int* num_five = (int*)malloc(sizeof(int) * (n+1));
+    //초기화
+    for(int i=0; i<=n; i++) {
+        num_two[i] = 0;
+        num_five[i] = 0;
+    }
+    //2배수 찾기
+    for(int i=2; i<=n; i*=2){
+         for(int j=1; i*j<=n; j++){
+            num_two[i*j]++;
+         }
+    }
+    //5배수 찾기
+    for(int i=5; i<=n; i*=5){
+        for(int j=1; i*j<=n; j++){
+            num_five[i*j]++;
+        }
+    }
+    
+    for(int i=2; i<=n; i++){
+        two += num_two[i];
+        five += num_five[i];
+
+        if(two>0 && five>0){
+            if(two>five){
+                cnt += five;
+                two -= five;
+                five = 0;
+                }
+            else{
+                cnt += two;
+                two = 0;
+                five -= two;
+            }
+        }
+
+    }
+    return cnt;
+}
